@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product
+		Name="Random Sticker Sender"
+		Manufacturer="istimaldar &lt;istimaldar@gmail.com&lt;"
+		Id="8bc4c88b-9969-4d85-95d0-f2f090ad66a3"
+		UpgradeCode="66dfb0b5-82d3-45fe-b98f-a2a4496720ba"
+		Version="0.0.1"
+		Language="1033">
+		<Package
+			Id="*"
+			Keywords="Installer"
+			Description="Random sticker sender installer"
+			InstallerVersion="200"
+			Manufacturer="istimaldar &lt;istimaldar@gmail.com&lt;"
+			Compressed="yes"
+			/>
+		<MediaTemplate EmbedCab="yes"/>
+		
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id='ProgramFiles64Folder' Name='PFiles'>
+				<Directory Id='INSTALLDIR' Name='RandomStickerSender'>
+					<Component Id="MainExecutable" Guid="e8ffbd23-e805-487e-ab09-32fa4cbd9c47">
+						<File Id="SenderEXE" Name="rsts.exe" Source="random_sticker_sender.exe" KeyPath="yes"></File>
+					</Component>
+					<Component Id="SharedLibs" Guid="7a1c51c5-d391-4e09-91dd-ca51690900c8" KeyPath="yes">
+						<File Id="LibCrypto" Name="libcrypto-1_1-x64.dll" Source="libcrypto-1_1-x64.dll"></File>
+						<File Id="LibSSL" Name="libssl-1_1-x64.dll" Source="libssl-1_1-x64.dll"></File>
+						<File Id="ZLib" Name="zlib1.dll" Source="zlib1.dll"></File>
+					</Component>
+					<Component Id="EnvironmentVariable" Guid="5e131bb7-a13f-4666-8abd-96b6ee43691e" >
+						<CreateFolder />
+						<Environment
+							  Id="PATH"
+							  Name="PATH"
+							  Value="[INSTALLDIR]"
+							  Permanent="yes"
+							  Part="last"
+							  Action="set"
+							  System="yes" />
+					</Component>
+				</Directory>
+			</Directory>
+		</Directory>
+
+		<Feature
+			Id="ProductFeature"
+			Title="MainExecutable"
+			Level="1"
+			>
+			<ComponentRef Id="MainExecutable"/>
+			<ComponentRef Id="SharedLibs"/>
+			<ComponentRef Id="EnvironmentVariable"/>
+		</Feature>
+	</Product>
+</Wix>
